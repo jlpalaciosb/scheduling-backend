@@ -12,7 +12,7 @@ class Person(models.Model):
     document = models.CharField(max_length=50,
             help_text='e.g.: The person\'s ID number', unique=True)
     first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50, null=True, blank=True)
+    last_name = models.CharField(max_length=50)
     email_address = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=50)
     date_of_birth = models.DateField(null=True, blank=True)

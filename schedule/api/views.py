@@ -8,7 +8,7 @@ class ServiceViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows services to be viewed or edited.
     """
-    queryset = Service.objects.all().order_by('-id')
+    queryset = Service.objects.all().order_by('name')
     serializer_class = ServiceSerializer
     permission_classes = [permissions.IsAuthenticated]
 
@@ -17,7 +17,7 @@ class ClientViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows Clients to be viewed or edited.
     """
-    queryset = Client.objects.all().order_by('-id')
+    queryset = Client.objects.all().order_by('last_name')
     serializer_class = ClientSerializer
     permission_classes = [permissions.IsAuthenticated]
 
@@ -26,7 +26,7 @@ class ProfessionalViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows Professionals to be viewed or edited.
     """
-    queryset = Professional.objects.all().order_by('-id')
+    queryset = Professional.objects.all().order_by('last_name')
     serializer_class = ProfessionalSerializer
     permission_classes = [permissions.IsAuthenticated]
 
