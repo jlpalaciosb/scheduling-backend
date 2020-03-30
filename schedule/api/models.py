@@ -20,6 +20,9 @@ class Person(models.Model):
 
     class Meta:
         abstract = True
+        indexes = [
+            models.Index(fields=('full_name',)),
+        ]
 
     def save(self, *args, **kwargs):
         self.full_name = self.first_name + ' ' + self.last_name

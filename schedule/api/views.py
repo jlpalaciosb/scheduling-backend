@@ -2,9 +2,10 @@ from schedule.api.models import Service, Client, Professional, Appointment
 from rest_framework import viewsets, permissions
 from schedule.api.serializers import ServiceSerializer, ClientSerializer, \
         ProfessionalSerializer, AppointmentSerializer
+from schedule.api.mixins import NotPatchMixin
 
 
-class ServiceViewSet(viewsets.ModelViewSet):
+class ServiceViewSet(NotPatchMixin, viewsets.ModelViewSet):
     """
     API endpoint that allows services to be viewed or edited.
     """
@@ -13,7 +14,7 @@ class ServiceViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
-class ClientViewSet(viewsets.ModelViewSet):
+class ClientViewSet(NotPatchMixin, viewsets.ModelViewSet):
     """
     API endpoint that allows Clients to be viewed or edited.
     """
@@ -22,7 +23,7 @@ class ClientViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
-class ProfessionalViewSet(viewsets.ModelViewSet):
+class ProfessionalViewSet(NotPatchMixin, viewsets.ModelViewSet):
     """
     API endpoint that allows Professionals to be viewed or edited.
     """
@@ -31,7 +32,7 @@ class ProfessionalViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
-class AppointmentViewSet(viewsets.ModelViewSet):
+class AppointmentViewSet(NotPatchMixin, viewsets.ModelViewSet):
     """
     API endpoint that allows Appointments to be viewed or edited.
     """
