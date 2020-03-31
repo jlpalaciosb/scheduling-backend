@@ -32,6 +32,8 @@ class ProfessionalViewSet(NotPatchMixin, viewsets.ModelViewSet):
     queryset = Professional.objects.all().order_by('last_name', 'first_name')
     serializer_class = ProfessionalSerializer
     permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['full_name']
 
 
 class AppointmentViewSet(NotPatchMixin, viewsets.ModelViewSet):
