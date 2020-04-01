@@ -12,6 +12,8 @@ class ServiceViewSet(NotPatchMixin, viewsets.ModelViewSet):
     queryset = Service.objects.all().order_by('name')
     serializer_class = ServiceSerializer
     permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name']
 
 
 class ClientViewSet(NotPatchMixin, viewsets.ModelViewSet):
