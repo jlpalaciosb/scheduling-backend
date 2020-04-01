@@ -6,9 +6,6 @@ class Service(models.Model):
     description = models.CharField(max_length=150, null=True, blank=True)
     category = models.CharField(max_length=50, null=True, blank=True)
 
-    def __str__(self):
-        return 'id:%d %s' % (self.id, self.name)
-
 
 class Person(models.Model):
     document = models.CharField(max_length=50,
