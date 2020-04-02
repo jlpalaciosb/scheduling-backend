@@ -42,6 +42,6 @@ class AppointmentViewSet(NotPatchMixin, viewsets.ModelViewSet):
     """
     API endpoint that allows Appointments to be viewed or edited.
     """
-    queryset = Appointment.objects.all().order_by('-id')
+    queryset = Appointment.objects.all().order_by('-date', 'start_time', 'finish_time')
     serializer_class = AppointmentSerializer
     permission_classes = [permissions.IsAuthenticated]

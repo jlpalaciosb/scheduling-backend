@@ -27,3 +27,9 @@ class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
         model = Appointment
         fields = ['id', 'date', 'start_time', 'finish_time', 'client',
                   'professional', 'service', 'state', 'comment']
+
+    def validate(self, data):
+        if not data['start_time'] < data['finish_time']:
+            raise serializers.ValidationError({
+                'finishTime': 'finish time must occur after start time'})
+        return data
