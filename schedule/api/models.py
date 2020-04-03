@@ -45,5 +45,5 @@ class Appointment(models.Model):
     professional = models.ForeignKey(Professional, on_delete=models.CASCADE)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     state = models.CharField(max_length=1, choices=(('S', 'Scheduled'),
-            ('Y', 'Did attend'), ('N', 'Did not attend')))
+            ('Y', 'Did attend'), ('N', 'Did not attend')), default='S')
     comment = models.CharField(max_length=300, blank=True)

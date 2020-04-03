@@ -30,6 +30,12 @@ class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
 
     def validate(self, data):
         if not data['start_time'] < data['finish_time']:
-            raise serializers.ValidationError({
-                'finishTime': 'finish time must occur after start time'})
+            raise serializers.ValidationError({'finishTime': 'finish time must occur after start time'})
+
+        aid = -1 # Updating appointment id, -1 if new appointment (POST)
+        if self.instance is not None: aid = self.instance.id
+        if data['professional'].appointment_set.exclude(id=aid).filter(state='S', date=data['date'],
+                finish_time__gt=data['start_time'], start_time__lt=data['finish_time']).count() > 0:
+            raise serializers.ValidationError({'professional': 'busy in the given time slot'})
+
         return data
