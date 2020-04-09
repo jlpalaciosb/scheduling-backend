@@ -5,28 +5,28 @@ from rest_framework import serializers
 class ServiceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Service
-        fields = ['id', 'name', 'description', 'category']
+        fields = ['id', 'name', 'description', 'category', 'url']
 
 
 class ClientSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Client
         fields = ['id', 'document', 'first_name', 'last_name',
-                  'email_address', 'phone_number', 'date_of_birth']
+                  'email_address', 'phone_number', 'date_of_birth', 'url']
 
 
 class ProfessionalSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Professional
         fields = ['id', 'document', 'first_name', 'last_name', 'email_address',
-                  'phone_number', 'date_of_birth', 'services']
+                  'phone_number', 'date_of_birth', 'services', 'url']
 
 
 class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Appointment
         fields = ['id', 'date', 'start_time', 'finish_time', 'client',
-                  'professional', 'service', 'state', 'comment']
+                  'professional', 'service', 'state', 'comment', 'url']
 
     def validate(self, data):
         if not data['start_time'] < data['finish_time']:

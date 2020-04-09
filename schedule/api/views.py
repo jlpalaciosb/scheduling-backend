@@ -46,7 +46,7 @@ class AppointmentViewSet(NotPatchMixin, viewsets.ModelViewSet):
     """
     queryset = Appointment.objects.all().order_by('-date', 'start_time', 'finish_time')
     serializer_class = AppointmentSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
     def list(self, *args, **kwargs):
         try:
