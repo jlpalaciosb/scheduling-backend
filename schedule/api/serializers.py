@@ -23,10 +23,17 @@ class ProfessionalSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
+    service_name = serializers.SerializerMethodField()
+    client_short_full_name = serializers.SerializerMethodField()
+    professional_short_full_name = serializers.SerializerMethodField()
+
     class Meta:
         model = Appointment
         fields = ['id', 'date', 'start_time', 'finish_time', 'client',
-                  'professional', 'service', 'state', 'comment', 'url']
+                  'professional', 'service', 'state', 'comment', 'url',
+                  'service_name', 'client_short_full_name', 'professional_short_full_name']
+        read_only_fields = ['service_name', 'client_short_full_name',
+                            'professional_short_full_name']
 
     def validate(self, data):
         if not data['start_time'] < data['finish_time']:
@@ -39,3 +46,14 @@ class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
             raise serializers.ValidationError({'professional': 'busy in the given time slot'})
 
         return data
+
+    def get_service_name(self, appointment):
+        return appointment.service.name
+
+    def get_client_short_full_name(self, appointment):
+        return appointment.client.first_name.split()[0] + ' ' + \
+               appointment.client.last_name.split()[0]
+
+    def get_professional_short_full_name(self, appointment):
+        return appointment.professional.first_name.split()[0] + ' ' + \
+               appointment.professional.last_name.split()[0]
