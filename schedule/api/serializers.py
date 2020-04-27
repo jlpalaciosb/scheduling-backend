@@ -5,35 +5,34 @@ from rest_framework import serializers
 class ServiceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Service
-        fields = ['id', 'name', 'description', 'category', 'url']
+        fields = ['id', 'url', 'name', 'description', 'category']
 
 
 class ClientSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Client
-        fields = ['id', 'document', 'first_name', 'last_name',
-                  'email_address', 'phone_number', 'date_of_birth', 'url']
+        fields = ['id', 'url', 'document', 'first_name', 'last_name',
+                  'email_address', 'phone_number', 'date_of_birth']
 
 
 class ProfessionalSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Professional
-        fields = ['id', 'document', 'first_name', 'last_name', 'email_address',
-                  'phone_number', 'date_of_birth', 'services', 'url']
+        fields = ['id', 'url', 'document', 'first_name', 'last_name', 'email_address',
+                  'phone_number', 'date_of_birth', 'services']
 
 
 class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
+    client_name = serializers.SerializerMethodField()
+    professional_name = serializers.SerializerMethodField()
     service_name = serializers.SerializerMethodField()
-    client_short_full_name = serializers.SerializerMethodField()
-    professional_short_full_name = serializers.SerializerMethodField()
 
     class Meta:
         model = Appointment
-        fields = ['id', 'date', 'start_time', 'finish_time', 'client',
-                  'professional', 'service', 'state', 'comment', 'url',
-                  'service_name', 'client_short_full_name', 'professional_short_full_name']
-        read_only_fields = ['service_name', 'client_short_full_name',
-                            'professional_short_full_name']
+        fields = ['id', 'url', 'date', 'start_time', 'finish_time', 'client', 'client_name',
+                  'professional', 'professional_name', 'service', 'service_name',
+                  'state', 'comment']
+        read_only_fields = ['client_name', 'professional_name', 'service_name']
 
     def validate(self, data):
         if not data['start_time'] < data['finish_time']:
@@ -47,13 +46,16 @@ class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
 
         return data
 
-    def get_service_name(self, appointment):
+    @staticmethod
+    def get_client_name(appointment):
+        return '%s %s' % (appointment.client.first_name.split()[0],
+                appointment.client.last_name.split()[0])
+
+    @staticmethod
+    def get_professional_name(appointment):
+        return '%s %s' % (appointment.professional.first_name.split()[0],
+                appointment.professional.last_name.split()[0])
+
+    @staticmethod
+    def get_service_name(appointment):
         return appointment.service.name
-
-    def get_client_short_full_name(self, appointment):
-        return appointment.client.first_name.split()[0] + ' ' + \
-               appointment.client.last_name.split()[0]
-
-    def get_professional_short_full_name(self, appointment):
-        return appointment.professional.first_name.split()[0] + ' ' + \
-               appointment.professional.last_name.split()[0]
